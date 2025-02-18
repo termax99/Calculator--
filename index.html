@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,11 +12,21 @@
             background-size: cover;
             font-family: 'Orbitron', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             color: #0ff;
             position: relative;
+        }
+
+        /* Cyberpunk Title */
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff00ff;
+            text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 15px #ff00ff;
+            margin-bottom: 20px;
         }
 
         .calculator {
@@ -90,12 +100,14 @@
 </head>
 <body>
 
+    <div class="title">CALCULATOR</div>
+
     <div class="calculator">
         <input type="text" id="display" class="display" disabled>
         <div class="buttons">
             <button onclick="clearDisplay()">C</button>
-            <button onclick="appendToDisplay('(')">(</button>
-            <button onclick="appendToDisplay(')')">)</button>
+            <button onclick="deleteLast()">DEL</button>
+            <button onclick="appendToDisplay('%')">%</button>
             <button onclick="appendToDisplay('/')">/</button>
 
             <button onclick="appendToDisplay('7')">7</button>
@@ -115,6 +127,7 @@
 
             <button onclick="appendToDisplay('0')">0</button>
             <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="appendToDisplay('Math.sqrt(')">√</button>
             <button class="equal" onclick="calculateResult()">=</button>
         </div>
     </div>
@@ -130,9 +143,15 @@
             document.getElementById('display').value = '';
         }
 
+        function deleteLast() {
+            let display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+        }
+
         function calculateResult() {
             try {
-                document.getElementById('display').value = eval(document.getElementById('display').value);
+                let result = eval(document.getElementById('display').value.replace('%', '/100'));
+                document.getElementById('display').value = result;
             } catch {
                 document.getElementById('display').value = 'Error';
             }
